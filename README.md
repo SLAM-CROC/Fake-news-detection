@@ -6,5 +6,25 @@ The dataset contains around 7k fake news, including a title, body, and label (FA
 
 ### Project Outcomes
 •	Pre-process the data to remove stop words. Stop words are the most occurring words in the language. It’s necessary to filter that out first.
+
 •	Evaluate the various algorithms which can affect best outcome
+
 •	Train a model to predict the likelihood of REAL news.
+
+### Project Timeline
+
+**Oct 16th** - Luanch date
+
+**Oct 16th - Oct 17** - Interpret the problem, researching, selecting development tool and framework
+
+**Oct 18th - Oct 21** - Preprocessing the datas & coding
+
+**Oct 22th - Oct 23** - choice of approach to implement
+
+**Oct 24th** - Report1&2: Problem statement and understanding, Data pre-processing and choice of approach to implement
+
+**Nov 7th** - Report3: Explanation of the method(s) and competing approaches
+
+**Dec 5th** - Class Presentation
+
+**Dec 12th** - Final Report: Experimental evaluation and results % Class Presentation
