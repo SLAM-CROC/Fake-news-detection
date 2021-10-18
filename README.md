@@ -18,7 +18,7 @@ The dataset contains around 7k fake news, including a title, body, and label (FA
 
 **Oct 18th - Oct 20** - Preprocessing the datas & coding
 
-**Oct 21th - Oct 23** - choice of approach to implement
+**Oct 21th - Oct 23** - Choice of approach to implement
 
 **Oct 24th** - Report1&2: Problem statement and understanding, Data pre-processing and choice of approach to implement
 
@@ -29,27 +29,21 @@ The dataset contains around 7k fake news, including a title, body, and label (FA
 **Dec 12th** - Final Report: Experimental evaluation and results % Class Presentation
 
 ### Selection Of ML/DL Development Framework
-Sklearn
-
-TensorFlow
-
-TensorFlow -- Keras
-
-TensorFlow -- Tensor2Tensor
-
-PyTorch
-
-NLTK
+  1. Sklearn
+  2. TensorFlow
+  3. TensorFlow -- Keras
+  4. TensorFlow -- Tensor2Tensor
+  5. PyTorch
+  6. NLTK
 
 ### Text Pre-processing:
-	1. Tokenization
-	2. Token Normalization: Stemming; Lemmatization
-	3. Data Cleaning: stop words, comma, upper/lower case, Number removing
-	4. Special: URL removing, Removing short words (Letter# < 2)
-	5. Frequency Removing
+  1. Tokenization
+  2. Token Normalization: Stemming; Lemmatization
+  3. Data Cleaning: stop words, comma, upper/lower case, Number removing
+  4. Special: URL removing, Removing short words (Letter# < 2)
+  5. Frequency Removing
   6. Feature Extraction / word representations in vector space: One-hot, TF-IDF, Word2Vec, Countvectorizer
 
 ### Choice of approach to implement
-ML algorithm - NB, KNN, SVM, LR
-
-DL algorithm - CNN RNN Transfer learning
+  1. ML algorithm - NB, KNN, SVM, LR
+  2. DL algorithm - TextCNN, RNN, Transfer learning, Google’s BERT, Transformer, LSTM
