@@ -1,3 +1,4 @@
+import re
 import tensorflow as tf
 import csv
 import numpy as np
@@ -14,8 +15,8 @@ def load_csv(filename):
         for line in reader:
             # print(line[1:3])
             if line[1] == 'title':
-                continue
                 count += 1
+                continue
             elif line[1] == ' ' or line[2] == ' ':
                 blank_data_number_list.append(count)
                 count += 1
@@ -34,14 +35,22 @@ def split_data(features, labels, test_proportion):
     return (train_x, train_y), (test_x, test_y)
 
 
+def remove_url(features):
+    count = 0
+    for i in features:
+        count += 1
+        if 'http://' in i[1] or 'https://' in i[1]:
+            i[1] = re.sub(r'http\S+', ' ', i[1])
+            print(count)
+            print(i)
+
+
 features_data, labels_data = load_csv('news.csv')
 
-print(len(features_data))
-print(features_data[0][0])
+# print(len(features_data))
+# print(features_data[0][0])
 
-
-
+remove_url(features_data)
 
 
 # (x_train, y_train), (x_test, y_test) = split_data(features_data, labels_data, 0.2)
-
