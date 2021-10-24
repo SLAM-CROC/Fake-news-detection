@@ -108,18 +108,6 @@ def recover_to_string(features):
     print('The text have been recovered from words to string')
 
 
-# features_data, labels_data = load_csv('news.csv')
-# remove_url(features_data)
-# remove_newline(features_data)
-# remove_number(features_data)
-# remove_punctuation(features_data)
-# convert_into_lowercase(features_data)
-# tokenization(features_data)
-# remove_stopwords(features_data)
-# normalization(features_data)
-# remove_short_words(features_data)
-
-
 def processing(features):
     remove_url(features)
     remove_newline(features)
@@ -130,7 +118,5 @@ def processing(features):
     remove_stopwords(features)
     normalization(features)
     remove_short_words(features)
-
-# (x_train, y_train), (x_test, y_test) = split_data(features_data, labels_data, 0.2)
 
 
