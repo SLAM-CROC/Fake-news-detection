@@ -1,6 +1,5 @@
 import preprocessing
 import matplotlib.pyplot as plt
-import pandas as pd
 
 
 def show_dataset(features, labels):
@@ -33,10 +32,10 @@ def draw_plot(data):
     plt.show()
 
 
-features_data, labels_data = preprocessing.load_csv('news.csv')
-preprocessing.processing(features_data)
-# show_dataset(features_data, labels_data)
-features_real_data, features_fake_data = split_features(features_data, labels_data)
+# features_data, labels_data = preprocessing.load_csv('news.csv')
+# preprocessing.processing(features_data)
+# # show_dataset(features_data, labels_data)
+# features_real_data, features_fake_data = split_features(features_data, labels_data)
 # draw_plot(features_real_data)
 # draw_plot(features_fake_data)
 

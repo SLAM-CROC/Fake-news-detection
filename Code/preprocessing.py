@@ -1,5 +1,4 @@
 import re
-import tensorflow as tf
 import csv
 import numpy as np
 from nltk.tokenize import word_tokenize
@@ -103,11 +102,13 @@ def remove_short_words(features):
     print("Short words have been removed")
 
 
+def recover_to_string(features):
+    for i in features:
+        i[1] = ' '.join(i[1])
+    print('The text have been recovered from words to string')
+
+
 # features_data, labels_data = load_csv('news.csv')
-
-# print(len(features_data))
-# print(features_data[0][0])
-
 # remove_url(features_data)
 # remove_newline(features_data)
 # remove_number(features_data)
@@ -127,14 +128,9 @@ def processing(features):
     convert_into_lowercase(features)
     tokenization(features)
     remove_stopwords(features)
-    # normalization(features)
+    normalization(features)
     remove_short_words(features)
 
-
 # (x_train, y_train), (x_test, y_test) = split_data(features_data, labels_data, 0.2)
-
-# for j in range(len(features_data)):
-#     print(j, features_data[j][1])
-
 
 
