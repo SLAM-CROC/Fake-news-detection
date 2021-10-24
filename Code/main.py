@@ -34,14 +34,14 @@ if __name__ == '__main__':
     preprocessing.normalization(features_data)
 
     # Remove words whose length are equal or less than 2
-    remove_short_words(features_data)
+    preprocessing.remove_short_words(features_data)
 
     # Divide the data into two categories according to the label and observe the amount of data in each category
     features_real_data, features_fake_data = visualizeData.split_features(features_data, labels_data)
 
     # Draw a histogram of frequency distribution and observe dataset
-    draw_plot(features_real_data)
-    draw_plot(features_fake_data)
+    visualizeData.draw_plot(features_real_data)
+    visualizeData.draw_plot(features_fake_data)
 
     # Restore data to string
     preprocessing.recover_to_string(features_data)
@@ -53,4 +53,4 @@ if __name__ == '__main__':
     visualizeData.show_dataset(features_data, labels_data)
 
     # Split the data by the proportion 4:1
-    (x_train, y_train), (x_test, y_test) = split_data(features_data, labels_data, 0.2)
+    (x_train, y_train), (x_test, y_test) = preprocessing.split_data(features_data, labels_data, 0.2)

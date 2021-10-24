@@ -30,5 +30,3 @@ def draw_plot(data):
     for i in dict_word:
         plt.bar((i[0],), (i[-1],))
     plt.show()
-
-
