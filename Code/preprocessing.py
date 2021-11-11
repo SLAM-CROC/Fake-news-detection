@@ -35,8 +35,8 @@ def load_csv(filename):
 
 def split_data(features, labels, test_proportion):
     index = int(len(features) * (1 - test_proportion))
-    train_x, train_y = np.array(features[:index]), np.array(labels[:index])
-    test_x, test_y = np.array(features[index:]), np.array(labels[index:])
+    train_x, train_y = np.array(features[:index], dtype=object), np.array(labels[:index], dtype=object)
+    test_x, test_y = np.array(features[index:], dtype=object), np.array(labels[index:], dtype=object)
     return (train_x, train_y), (test_x, test_y)
 
 
@@ -106,6 +106,12 @@ def recover_to_string(features):
     for i in features:
         i[1] = ' '.join(i[1])
     print('The text have been recovered from words to string')
+
+
+def encode_labels(labels):
+    labels = np.array(labels)
+    labels = LabelEncoder().fit_transform(labels)
+    return labels
 
 
 def processing(features):

@@ -49,8 +49,12 @@ if __name__ == '__main__':
     # Preform text vectorization
     textVectorization.vectorize(features_data)
 
+    # encode FAKE and Real to 0 and 1
+    labels_data = preprocessing.encode_labels(labels_data)
+
     # Output the dataset
-    visualizeData.show_dataset(features_data, labels_data)
+    # visualizeData.show_dataset(features_data, labels_data)
 
     # Split the data by the proportion 4:1
     (x_train, y_train), (x_test, y_test) = preprocessing.split_data(features_data, labels_data, 0.2)
+
