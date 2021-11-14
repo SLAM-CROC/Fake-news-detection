@@ -2,6 +2,7 @@
 import preprocessing
 import visualizeData
 import textVectorization
+import models
 
 
 if __name__ == '__main__':
@@ -57,4 +58,22 @@ if __name__ == '__main__':
 
     # Split the data by the proportion 4:1
     (x_train, y_train), (x_test, y_test) = preprocessing.split_data(features_data, labels_data, 0.2)
+
+    models.mlp_model(x_train, y_train)
+
+    models.cnn_model(x_train, y_train)
+
+    models.lstm_model(x_train, y_train)
+
+    models.lr_model(x_train, y_train, x_test, y_test)
+
+    models.nb_model(x_train, y_train, x_test, y_test)
+
+    models.knn_model(x_train, y_train, x_test, y_test)
+
+    models.svm_model(x_train, y_train, x_test, y_test)
+
+    models.decision_tree_model(x_train, y_train, x_test, y_test)
+
+
 
