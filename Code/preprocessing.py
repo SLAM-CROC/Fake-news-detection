@@ -5,6 +5,8 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
+from sklearn.preprocessing import LabelEncoder
+from tensorflow.keras.utils import to_categorical
 
 
 # Load csv file and remove blank data
@@ -114,6 +116,19 @@ def encode_labels(labels):
     return labels
 
 
+def onehot_labels(labels):
+    labels = np.array(labels)
+    labels = LabelEncoder().fit_transform(labels)
+    labels = to_categorical(labels)
+    return labels
+
+
+def extract_text(x):
+    extracted_list = []
+    for i in x:
+        extracted_list.append(i[1].reshape(1000, ))
+    extracted_list = np.array(extracted_list)
+    return extracted_list
 
 
 def processing(features):

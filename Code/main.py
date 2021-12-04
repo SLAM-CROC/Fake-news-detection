@@ -59,6 +59,9 @@ if __name__ == '__main__':
     # Split the data by the proportion 4:1
     (x_train, y_train), (x_test, y_test) = preprocessing.split_data(features_data, labels_data, 0.2)
 
+    x_train = preprocessing.extract_text(x_train)
+    x_test = preprocessing.extract_text(x_test)
+
     models.mlp_model(x_train, y_train)
 
     models.cnn_model(x_train, y_train)
@@ -74,6 +77,3 @@ if __name__ == '__main__':
     models.svm_model(x_train, y_train, x_test, y_test)
 
     models.decision_tree_model(x_train, y_train, x_test, y_test)
-
-
-
