@@ -1,49 +1,43 @@
-# Fake-news-detection
+# Fake-News-Detection
 
 ### Project Description
 Social media has provided an excellent interactive technology platform that allows the creation, sharing, and exchange of interests, ideas, or information via virtual networks very quickly. A new platform enables endless opportunities for marketing to reach new or existing customers. However, it has also opened the devil’s door for falsified information which has no proven source of information, facts, or quotes. It is really hard to detect whether the given news or information is correct or not. Here, as a part of this project, we need to detect the authenticity of given news using DL.              
 The dataset contains around 7k fake news, including a title, body, and label (FAKE or REAL). The task is to train the data to predict if the given news is fake or real.
 
 ### Project Outcomes
-•	Pre-process the data to remove stop words. Stop words are the most occurring words in the language. It’s necessary to filter that out first.
+•	Pre-process the data  
+•	Evaluate the various algorithms which can affect best outcome  
+•	Train a model to predict the likelihood of REAL news
 
-•	Evaluate the various algorithms which can affect best outcome
+### Prerequisites & Version
+•	Sklearn -- 0.24.2  
+•	TensorFlow -- 2.0.0  
+•	Keras -- 2.3.1  
+•	NLTK -- 3.6.5  
+•	Gensim -- 3.8.3  
+•	H5py -- 2.10.0  
 
-•	Train a model to predict the likelihood of REAL news.
+### Data Clean/Text Pre-processing:
+  1. Load dataset from csv file and delete the missing data points
 
-### Project Timeline
-**Oct 16th** - Luanch date
+  2. Remove url in the text
 
-**Oct 16th - Oct 17** - Interpret the problem, researching, selecting development tool and framework
+  3. Remove newline signals from text
 
-**Oct 18th - Oct 20** - Preprocessing the datas & coding
+  4. Remove numbers and punctuations from text
 
-**Oct 21th - Oct 23** - Choice of approach to implement
+  5. Convert all letters into lowercase
 
-**Oct 24th** - Report1&2: Problem statement and understanding, Data pre-processing and choice of approach to implement
+  6. Tokenization text
 
-**Nov 7th** - Report3: Explanation of the method(s) and competing approaches
+  7. Remove stopwords from text
 
-**Dec 5th** - Class Presentation
+  8. Normalization: including stemming and Lemmatization
 
-**Dec 12th** - Final Report: Experimental evaluation and results % Class Presentation
-
-### Selection Of ML/DL Development Framework
-  1. Sklearn
-  2. TensorFlow
-  3. TensorFlow -- Keras
-  4. TensorFlow -- Tensor2Tensor
-  5. PyTorch
-  6. NLTK
-
-### Text Pre-processing:
-  1. Tokenization
-  2. Token Normalization: Stemming; Lemmatization
-  3. Data Cleaning: stop words, comma, upper/lower case, Number removing
-  4. Special: URL removing, Removing short words (Letter# < 2)
-  5. Frequency Removing
-  6. Feature Extraction / word representations in vector space: One-hot, TF-IDF, Word2Vec, Countvectorizer
+  9. Remove words whose length are equal or less than 2
 
 ### Choice of approach to implement
-  1. ML algorithm - NB, KNN, SVM, LR
-  2. DL algorithm - TextCNN, RNN, Transfer learning, Google’s BERT, Transformer, LSTM
+•	ML algorithm - Naive Bayes, K-Nearest Neighbours, Support Vector Machine, Logistic Regression, Decision Tree  
+•	DL algorithm - MLP, CNN, LSTM
+
+### Project Structure
