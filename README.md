@@ -41,6 +41,4 @@ The dataset contains around 7k fake news, including a title, body, and label (FA
 •	DL algorithm - MLP, CNN, LSTM
 
 ### Project Structure
-<p align='left'>
-  <img src='imgs/Proposed Approach Outline.png.gif' width='400'/>
-</p>
+![avatar](https://github.com/SLAM-CROC/Fake-news-detection/blob/main/imgs/Proposed%20Approach%20Outline.png?raw=true)
