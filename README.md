@@ -45,3 +45,7 @@ The dataset contains around 7k fake news, including a title, body, and label (FA
 
 ### Project Result
 ![avatar](https://github.com/SLAM-CROC/Fake-news-detection/blob/main/imgs/result.png?raw=true)
+
+### Prediction
+Run the predict.py script to make the Prediction to the News
+![avatar](https://github.com/SLAM-CROC/Fake-news-detection/blob/main/imgs/Picture1.png?raw=true)
