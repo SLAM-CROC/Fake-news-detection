@@ -30,3 +30,26 @@ def draw_plot(data):
     for i in dict_word:
         plt.bar((i[0],), (i[-1],))
     plt.show()
+
+
+if __name__ == '__main__':
+
+    # Cleaning data
+    # Load dataset from csv file and delete the missing data points
+    # Remove url in the text
+    # Remove newline signals from text
+    # Remove numbers from text
+    # Remove punctuations from text
+    # Convert all letters into lowercase
+    # Tokenization text
+    # Remove stopwords from text
+    # Normalization: including stemming and Lemmatization
+    # Remove words whose length are equal or less than 2
+    features_data, labels_data = preprocessing.clean_data('news.csv')
+
+    # Divide the data into two categories according to the label and observe the amount of data in each category
+    features_real_data, features_fake_data = split_features(features_data, labels_data)
+
+    # Draw a histogram of frequency distribution and observe dataset
+    draw_plot(features_real_data)
+    draw_plot(features_fake_data)

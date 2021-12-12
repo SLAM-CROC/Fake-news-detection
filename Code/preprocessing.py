@@ -6,7 +6,6 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 from sklearn.preprocessing import LabelEncoder
-from tensorflow.keras.utils import to_categorical
 
 
 # Load csv file and remove blank data
@@ -108,6 +107,7 @@ def recover_to_string(features):
     for i in features:
         i[1] = ' '.join(i[1])
     print('The text have been recovered from words to string')
+    return features
 
 
 def encode_labels(labels):
@@ -116,28 +116,22 @@ def encode_labels(labels):
     return labels
 
 
-def onehot_labels(labels):
-    labels = np.array(labels)
-    labels = LabelEncoder().fit_transform(labels)
-    labels = to_categorical(labels)
-    return labels
+def extract_text(features_data):
+    extracted = []
+    for i in features_data:
+        extracted.append(i[1])
+    return extracted
 
 
-def extract_text(x):
-    extracted_list = []
-    for i in x:
-        extracted_list.append(i[1].reshape(1000, ))
-    extracted_list = np.array(extracted_list)
-    return extracted_list
-
-
-def processing(features):
-    remove_url(features)
-    remove_newline(features)
-    remove_number(features)
-    remove_punctuation(features)
-    convert_into_lowercase(features)
-    tokenization(features)
-    remove_stopwords(features)
-    normalization(features)
-    remove_short_words(features)
+def clean_data(filename):
+    features_data, labels_data = load_csv(filename)
+    remove_url(features_data)
+    remove_newline(features_data)
+    remove_number(features_data)
+    remove_punctuation(features_data)
+    convert_into_lowercase(features_data)
+    tokenization(features_data)
+    remove_stopwords(features_data)
+    normalization(features_data)
+    remove_short_words(features_data)
+    return features_data, labels_data

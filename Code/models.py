@@ -1,21 +1,29 @@
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegressionCV
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
+from sklearn.tree import DecisionTreeClassifier
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten, MaxPool1D, Conv1D
 from keras.layers.embeddings import Embedding
 from keras.layers import BatchNormalization
+import tensorflow as tf
 from keras.layers import LSTM
-from sklearn.linear_model import LogisticRegressionCV
-from sklearn.pipeline import Pipeline
-from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
-from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.svm import SVC
-from sklearn.tree import DecisionTreeClassifier
 
 
-def cnn_model(x_train, y_train):
+# Define Early Stop to prevent over fitting
+early_stop = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=2, restore_best_weights=True)
+
+
+def cnn_model(x_train, y_train, x_test, y_test, vocab_size, EMBEDDING_DIM, embedding_vectors, maxlen):
     model = Sequential()
-    model.add(Embedding(output_dim=32, input_dim=2000, input_length=1000))
+
+    model.add(Embedding(vocab_size, output_dim=EMBEDDING_DIM,
+                        weights=[embedding_vectors], input_length=maxlen, trainable=False))
     model.add(Conv1D(256, 3, padding='same', activation='relu'))
     model.add(MaxPool1D(3, 3, padding='same'))
     model.add(Conv1D(32, 3, padding='same', activation='relu'))
@@ -24,96 +32,102 @@ def cnn_model(x_train, y_train):
     model.add(BatchNormalization())
     model.add(Dense(256, activation='relu'))
     model.add(Dropout(0.2))
-    model.add(Dense(units=2, activation='sigmoid'))
+    model.add(Dense(units=1, activation='sigmoid'))
 
     model.summary()
     model.compile(loss='binary_crossentropy', optimizer="adam", metrics=['accuracy'])
+    history = model.fit(x_train, y_train, validation_split=0.2, epochs=6, callbacks=[early_stop])
 
-    history = model.fit(x_train, y_train, batch_size=16, epochs=10, validation_split=0.2)
+    test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
+    return test_acc
 
 
-def mlp_model(x_train, y_train):
+def mlp_model(x_train, y_train, x_test, y_test, vocab_size, EMBEDDING_DIM, embedding_vectors, maxlen):
     model = Sequential()
-    model.add(Embedding(output_dim=32, input_dim=2000, input_length=1000))
+    model.add(Embedding(vocab_size, output_dim=EMBEDDING_DIM,
+                        weights=[embedding_vectors], input_length=maxlen, trainable=False))
     model.add(Dropout(0.2))
     model.add(Flatten())
-    model.add(Dense(256, activation="relu"))
+    model.add(Dense(512, activation="relu"))
     model.add(Dropout(0.25))
-    model.add(Dense(2, activation="sigmoid"))
-
+    model.add(Dense(1, activation="sigmoid"))
     model.summary()
     model.compile(loss='binary_crossentropy', optimizer="adam", metrics=['accuracy'])
+    history = model.fit(x_train, y_train, validation_split=0.2, epochs=6, callbacks=[early_stop])
 
-    history = model.fit(x_train, y_train, batch_size=16, epochs=10, validation_split=0.2)
+    test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
+    return test_acc
 
 
-def lstm_model(x_train, y_train):
+def lstm_model(x_train, y_train, x_test, y_test, vocab_size, EMBEDDING_DIM, embedding_vectors, maxlen):
+    # Defining Neural Network
     model = Sequential()
-    model.add(Embedding(output_dim=32, input_dim=2000, input_length=1000))
-    model.add(LSTM(units=128, return_sequences=True, input_shape=(7, 1)))
-    model.add(Dropout(0.3))
-    model.add(LSTM(units=64))
-    model.add(Dense(units=2, activation="sigmoid"))
-
+    # Non-trainable embedding layer
+    model.add(Embedding(vocab_size, output_dim=EMBEDDING_DIM,
+                        weights=[embedding_vectors], input_length=maxlen,
+                        trainable=False))
+    # LSTM
+    model.add(LSTM(units=128))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
     model.summary()
     model.compile(loss='binary_crossentropy', optimizer="adam", metrics=['accuracy'])
+    model.fit(x_train, y_train, validation_split=0.2, epochs=6, callbacks=[early_stop])
 
-    history = model.fit(x_train, y_train, batch_size=16, epochs=10, validation_split=0.2)
+    test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
+    return test_acc
 
 
 def lr_model(x_train, y_train, x_test, y_test):
-    lr = Pipeline([('tfidf', TfidfTransformer()),
-                   ('model',
-                    LogisticRegressionCV(cv=5, scoring='accuracy', random_state=0, n_jobs=-1, verbose=3, max_iter=300)),
-                   ])
-    lr.fit(x_train, y_train)
-
-    y_pred_lr = lr.predict(x_test)
-
-    print('accuracy %s' % accuracy_score(y_pred_lr, y_test))
+    pipe2 = Pipeline([('vectorized', CountVectorizer()), ('tfidf', TfidfTransformer()),
+                      ('model', LogisticRegressionCV(cv=5, scoring='accuracy', random_state=0, n_jobs=-1, max_iter=300))])
+    model2 = pipe2.fit(x_train, y_train)
+    result2 = model2.predict(x_test)
+    print("LogisticRegressionCV:")
+    print("Accuracy: ", accuracy_score(y_test, result2))
+    print("F1 Score: ", f1_score(y_test, result2, average='micro'))
+    print("\n")
 
 
 def nb_model(x_train, y_train, x_test, y_test):
-    nb = Pipeline([('tfidf', TfidfTransformer()),
-                   ('model', MultinomialNB()),
-                   ])
-    nb.fit(x_train, y_train)
-
-    y_pred_nb = nb.predict(x_test)
-
-    print('accuracy %s' % accuracy_score(y_pred_nb, y_test))
+    pipe1 = Pipeline([('vectorized', CountVectorizer()), ('tfidf', TfidfTransformer()),
+                      ('model', MultinomialNB())])
+    model1 = pipe1.fit(x_train, y_train)
+    result1 = model1.predict(x_test)
+    print("Naive Bayes:")
+    print("Accuracy: ", accuracy_score(y_test, result1))
+    print("F1 Score: ", f1_score(y_test, result1, average='micro'))
+    print("\n")
 
 
 def knn_model(x_train, y_train, x_test, y_test):
-    knn = Pipeline([('tfidf', TfidfTransformer()),
-                    ('model', KNeighborsClassifier(n_neighbors=5)),
-                    ])
-    knn.fit(x_train, y_train)
-
-    y_pred_knn = knn.predict(x_test)
-
-    print('accuracy %s' % accuracy_score(y_pred_knn, y_test))
+    pipe3 = Pipeline([('vectorized', CountVectorizer()), ('tfidf', TfidfTransformer()),
+                      ('model', KNeighborsClassifier(n_neighbors=5))])
+    model3 = pipe3.fit(x_train, y_train)
+    result3 = model3.predict(x_test)
+    print("KNN:")
+    print("Accuracy: ", accuracy_score(y_test, result3))
+    print("F1 Score: ", f1_score(y_test, result3, average='micro'))
+    print("\n")
 
 
 def svm_model(x_train, y_train, x_test, y_test):
-    svm = Pipeline([('tfidf', TfidfTransformer()),
-                    ('model', SVC(kernel='linear', random_state=1)),
-                    ])
-    svm.fit(x_train, y_train)
-
-    y_pred_svm = svm.predict(x_test)
-
-    print('accuracy %s' % accuracy_score(y_pred_svm, y_test))
+    pipe4 = Pipeline([('vectorized', CountVectorizer()), ('tfidf', TfidfTransformer()),
+                      ('model', SVC(kernel='linear', random_state=1))])
+    model4 = pipe4.fit(x_train, y_train)
+    result4 = model4.predict(x_test)
+    print("SVM:")
+    print("Accuracy: ", accuracy_score(y_test, result4))
+    print("F1 Score: ", f1_score(y_test, result4, average='micro'))
+    print("\n")
 
 
 def decision_tree_model(x_train, y_train, x_test, y_test):
-    dt = Pipeline([('tfidf', TfidfTransformer()),
-                   ('model', DecisionTreeClassifier()),
-                   ])
-    dt.fit(x_train, y_train)
-
-    y_pred_dt = dt.predict(x_test)
-
-    print('accuracy %s' % accuracy_score(y_pred_dt, y_test))
-
-
+    pipe5 = Pipeline([('vectorized', CountVectorizer()), ('tfidf', TfidfTransformer()),
+                      ('model', DecisionTreeClassifier())])
+    model5 = pipe5.fit(x_train, y_train)
+    result5 = model5.predict(x_test)
+    print("Decision Tree:")
+    print("Accuracy: ", accuracy_score(y_test, result5))
+    print("F1 Score: ", f1_score(y_test, result5, average='micro'))
+    print("\n")
