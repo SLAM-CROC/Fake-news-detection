@@ -42,3 +42,6 @@ The dataset contains around 7k fake news, including a title, body, and label (FA
 
 ### Project Structure
 ![avatar](https://github.com/SLAM-CROC/Fake-news-detection/blob/main/imgs/Proposed%20Approach%20Outline.png?raw=true)
+
+### Project Result
+![avatar](https://github.com/SLAM-CROC/Fake-news-detection/blob/main/imgs/result.png?raw=true)
